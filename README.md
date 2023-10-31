@@ -17,9 +17,9 @@ Steps:
 =================
 1. Install vault
 
-    sudo yum install -y yum-utils shadow-utils
-    sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
-    sudo yum -y install vault
+        sudo yum install -y yum-utils shadow-utils
+        sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+        sudo yum -y install vault
 
 2. Create secret in vault
 3. Install External Secret Operator
