@@ -13,6 +13,8 @@ Steps:
 4. Create SecretStore,ExternalSecret
 5. Install Worpress site which is using MySQL DB (password for it stored in vault)
 
+
+
 1. Install vault
 
     sudo yum install -y yum-utils shadow-utils
