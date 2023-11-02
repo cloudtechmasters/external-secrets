@@ -43,6 +43,9 @@ now enable the engine with path sec
 
         
 2. Create secret in vault
+
+![Uploading image.png…]()
+
 3. Install External Secret Operator
 4. Create SecretStore,ExternalSecret
 5. Install Worpress site which is using MySQL DB (password for it stored in vault)
