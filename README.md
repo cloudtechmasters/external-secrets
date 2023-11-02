@@ -39,8 +39,7 @@ Enable new secret engine:
 
 now enable the engine with path sec
 
-![Uploading image.png…]()
-
+![image](https://github.com/cloudtechmasters/external-secrets/assets/68885738/1e479ec8-d5fe-4200-9d24-4f666e91108a)
 
         
 2. Create secret in vault
