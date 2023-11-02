@@ -44,8 +44,18 @@ now enable the engine with path sec
         
 2. Create secret in vault
 
-![Uploading image.png…]()
+![image](https://github.com/cloudtechmasters/external-secrets/assets/68885738/38491db0-390e-43c0-ae89-600677132c11)
 
 3. Install External Secret Operator
+
+        helm repo add external-secrets https://charts.external-secrets.io
+        
+        helm install external-secrets \
+           external-secrets/external-secrets \
+            -n external-secrets \
+            --create-namespace \
+          # --set installCRDs=true
+
+
 4. Create SecretStore,ExternalSecret
 5. Install Worpress site which is using MySQL DB (password for it stored in vault)
