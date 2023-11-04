@@ -21,11 +21,49 @@ Steps:
         sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
         sudo yum -y install vault
 
-Now start the vault server:
+        mkdir /etc/vault
+        mkdir -p /var/lib/vault/data
+        useradd --system --home /etc/vault --shell /bin/false vault
+        chown -R vault:vault /etc/vault /var/lib/vault/
 
-        sudo systemctl start vault
+Copy vault.service and config.hcl from the vault directory to the below paths respectively.
 
-Access the Vault using : https://node_ip:8200
+        /etc/systemd/system/vault.service 
+        /etc/vault/config.hcl 
+
+        sudo systemctl daemon-reload
+        sudo systemctl enable --now vault
+
+Created symlink from /etc/systemd/system/multi-user.target.wants/vault.service to /etc/systemd/system/vault.service.
+
+        systemctl status vault
+
+        export VAULT_ADDR=http://127.0.0.1:8200
+        vault operator init |tee  /etc/vault/init.file  
+
+        # cat /etc/vault/init.file
+        Unseal Key 1: 8w/vmDxrxTPovyxHz8e0wfixH4IUb08JozU/hvahZpV7
+        Unseal Key 2: P8TVjb2jUvqwp8d3F306vlEHlJ4LGbfRo4BfFvhNc5xb
+        Unseal Key 3: xgkP1Yh4hprcgRMpscVEkMAT0q+nOQlFimU2B6uWCEkJ
+        Unseal Key 4: 1nn1rbAh+2VrEMbLWd2RLsHItSG5tK1STsJDHXQ8dJnN
+        Unseal Key 5: yZlRakRA1Caxs7HcP7Kq5uM6gP/vcRfdyB8qHl14zRy0
+        
+        Initial Root Token: s.UQwEqH4ZevMplOBGjdmQo4eS
+        
+        Vault initialized with 5 key shares and a key threshold of 3. Please securely
+        distribute the key shares printed above. When the Vault is re-sealed,
+        restarted, or stopped, you must supply at least 3 of these keys to unseal it
+        before it can start servicing requests.
+        
+        Vault does not store the generated master key. Without at least 3 key to
+        reconstruct the master key, Vault will remain permanently sealed!
+        
+        It is possible to generate new unseal keys, provided you have a quorum of
+        existing unseal keys shares. See "vault operator rekey" for more information.
+
+
+
+        Access the Vault using : http://node_ip:8200
 
 ![image](https://github.com/cloudtechmasters/external-secrets/assets/68885738/15d2d210-5935-4618-996b-b60c848ae4a4)
 
