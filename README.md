@@ -47,7 +47,7 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/vault.service t
         Unseal Key 4: 1nn1rbAh+2VrEMbLWd2RLsHItSG5tK1STsJDHXQ8dJnN
         Unseal Key 5: yZlRakRA1Caxs7HcP7Kq5uM6gP/vcRfdyB8qHl14zRy0
         
-        Initial Root Token: s.UQwEqH4ZevMplOBGjdmQo4eS
+        Initial Root Token: hvs.unbdbSsB0m6CR3980Fyt7FC3
         
         Vault initialized with 5 key shares and a key threshold of 3. Please securely
         distribute the key shares printed above. When the Vault is re-sealed,
@@ -103,8 +103,14 @@ now enable the engine with path sec
 
 5. Create SecretStore,ExternalSecret
 
-First, create a SecretStore with a vault backend. For the sake of simplicity we'll use a static token root:
+Create vault-token for the secretstore to connect with vault
 
+ kubectl create secret generic vault-token --from-literal=token=root_token
+ 
+         kubectl create secret generic vault-token --from-literal=token=hvs.unbdbSsB0m6CR3980Fyt7FC3
+
+First, create a SecretStore with a vault backend. 
+        
         apiVersion: external-secrets.io/v1beta1
         kind: SecretStore
         metadata:
@@ -114,28 +120,93 @@ First, create a SecretStore with a vault backend. For the sake of simplicity we'
             vault:
               server: "http://my.vault.server:8200"
               path: "secret"
-              version: "v1"
+              version: "v2"
               auth:
                 # points to a secret that contains a vault token
                 # https://www.vaultproject.io/docs/auth/token
                 tokenSecretRef:
                   name: "vault-token"
                   key: "token"
-        ---
-        apiVersion: v1
-        kind: Secret
+
+
+        $ kubectl apply -f secret.yaml
+        secretstore.external-secrets.io/vault-backend created
+
+        $ kubectl get secretstore
+        NAME            AGE   STATUS   CAPABILITIES   READY
+        vault-backend   9s    Valid    ReadWrite      True
+
+Now create a ExternalSecret that uses the above SecretStore:
+
+        apiVersion: external-secrets.io/v1beta1
+        kind: ExternalSecret
         metadata:
-          name: vault-token
-        data:
-          token: cm9vdA== # "root"
+          name: vault-example
+        spec:
+          refreshInterval: "15s"
+          secretStoreRef:
+            name: vault-backend
+            kind: SecretStore
+          target:
+            name: mysql-pass  -- Secret will be created with this name
+          data:
+          - secretKey: password  -- Secret will be created with this key
+            remoteRef:
+              key: secret/sec  -- path to the secret : secret/sec
+              property: password  -- key for secret (passord=admin)
 
-$ kubectl apply -f secret.yaml
-secretstore.external-secrets.io/vault-backend created
 
-tushar dashpute@DESKTOP-0K20KMJ MINGW64 ~/Downloads
-$ kubectl get secretstore
-NAME            AGE   STATUS   CAPABILITIES   READY
-vault-backend   9s    Valid    ReadWrite      True
+        kubectl apply -f externalSecret.yaml
+        externalsecret.external-secrets.io/vault-example configured
 
-   
+This will create externalsecret vault-example
+        
+        $ kubectl get externalsecret
+        NAME            STORE           REFRESH INTERVAL   STATUS         READY
+        vault-example   vault-backend   15s                SecretSynced   True
+
+This will create the below secret mysql-pass, with the key password
+        
+        $ k get secret
+        NAME          TYPE     DATA   AGE
+        mysql-pass    Opaque   1      5m13s
+        vault-token   Opaque   1      48m
+
 6. Install Worpress site which is using MySQL DB (password for it stored in vault)
+
+        kubectl apply -f mysql-deployment.yaml
+        service/wordpress-mysql created
+        persistentvolumeclaim/mysql-pv-claim created
+        deployment.apps/wordpress-mysql created
+
+kubectl get pods
+NAME                              READY   STATUS    RESTARTS   AGE
+wordpress-mysql-b759dbb45-2j89n   1/1     Running   0          2m17s
+
+To verify if user WordPress is created using the password we created in the vault i.e admin use below:
+
+        kubectl exec -it wordpress_pod_name -- mysql -u wordpress -p -e "show databases"
+
+It will then prompt for the password/
+
+        $ kubectl exec -it wordpress-mysql-b759dbb45-2j89n -- mysql -u wordpress -p -e "show databases"
+        Unable to use a TTY - input is not a terminal or the right kind of file
+        Enter password: admin
+        Database
+        information_schema
+        performance_schema
+        wordpress
+
+Now deploy the wordpress-deployment.
+
+ kubectl apply -f wordpress-deployment.yaml
+ 
+        kubectl apply -f wordpress-deployment.yaml
+        service/wordpress created
+        persistentvolumeclaim/wp-pv-claim created
+        deployment.apps/wordpress created
+
+        kubectl get pods
+        NAME                              READY   STATUS    RESTARTS   AGE
+        wordpress-78bb764d54-6p5qj        1/1     Running   0          2m12s
+        wordpress-mysql-b759dbb45-2j89n   1/1     Running   0          6m20s
