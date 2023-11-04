@@ -50,11 +50,11 @@ now enable the engine with path sec
 
         helm repo add external-secrets https://charts.external-secrets.io
         
-        helm install external-secrets \
-           external-secrets/external-secrets \
-            -n external-secrets \
-            --create-namespace \
-          # --set installCRDs=true
+helm install external-secrets \
+    external-secrets/external-secrets \
+    -n tools \
+    --create-namespace \
+    --set installCRDs=true
 
 
 4. Create SecretStore,ExternalSecret
