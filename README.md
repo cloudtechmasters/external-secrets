@@ -20,7 +20,9 @@ Steps:
         sudo yum install -y yum-utils shadow-utils
         sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
         sudo yum -y install vault
+   
 
+        cp /usr/bin/vault /usr/local/sbin
         mkdir /etc/vault
         mkdir -p /var/lib/vault/data
         useradd --system --home /etc/vault --shell /bin/false vault
