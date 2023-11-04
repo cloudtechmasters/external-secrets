@@ -211,3 +211,8 @@ Now deploy the wordpress-deployment.
         NAME                              READY   STATUS    RESTARTS   AGE
         wordpress-78bb764d54-6p5qj        1/1     Running   0          2m12s
         wordpress-mysql-b759dbb45-2j89n   1/1     Running   0          6m20s
+
+
+References:
+https://external-secrets.io/v0.5.7/provider-hashicorp-vault/
+https://www.argonaut.dev/blog/external-secrets-setup
