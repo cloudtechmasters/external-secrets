@@ -70,18 +70,20 @@ Initialize it download the keys. Now open the UI again and provied keys to unsea
 
 Enable new secret engine:
 
-![image](https://github.com/cloudtechmasters/external-secrets/assets/68885738/187365f8-a2e9-4638-93a4-30e022449688)
+![image](https://github.com/cloudtechmasters/external-secrets/assets/68885738/6b54867d-38d0-4ead-86a9-8268184025ae)
 
-![image](https://github.com/cloudtechmasters/external-secrets/assets/68885738/d730b06d-ef58-4682-850d-c296a88de4c4)
+![image](https://github.com/cloudtechmasters/external-secrets/assets/68885738/71556ccc-914f-4428-bc1a-9a8c039a03a8)
+
 
 now enable the engine with path sec
 
-![image](https://github.com/cloudtechmasters/external-secrets/assets/68885738/1e479ec8-d5fe-4200-9d24-4f666e91108a)
+![image](https://github.com/cloudtechmasters/external-secrets/assets/68885738/16de486f-6566-4257-bd3c-e14e2a84f295)
 
         
 2. Create secret in vault
 
-![image](https://github.com/cloudtechmasters/external-secrets/assets/68885738/38491db0-390e-43c0-ae89-600677132c11)
+![image](https://github.com/cloudtechmasters/external-secrets/assets/68885738/0f4046d6-c8cf-4333-b7e4-3ae1ea1c98a6)
+
 
 3. Install External Secret Operator
 
