@@ -15,7 +15,7 @@ Steps:
 
 
 =================
-1. Install vault
+**1. Install vault**
 
         sudo yum install -y yum-utils shadow-utils
         sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
@@ -68,24 +68,23 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/vault.service t
 
 Initialize it download the keys. Now open the UI again and provied keys to unseal vault and provide the root_token when it will ask for token.
 
-Enable new secret engine:
+# Enable new secret engine:
 
 ![image](https://github.com/cloudtechmasters/external-secrets/assets/68885738/6b54867d-38d0-4ead-86a9-8268184025ae)
+
+now enable the engine with path secret:
 
 ![image](https://github.com/cloudtechmasters/external-secrets/assets/68885738/71556ccc-914f-4428-bc1a-9a8c039a03a8)
 
 
-now enable the engine with path sec
+**2. Create secret in vault**
 
 ![image](https://github.com/cloudtechmasters/external-secrets/assets/68885738/16de486f-6566-4257-bd3c-e14e2a84f295)
-
-        
-2. Create secret in vault
 
 ![image](https://github.com/cloudtechmasters/external-secrets/assets/68885738/0f4046d6-c8cf-4333-b7e4-3ae1ea1c98a6)
 
 
-3. Install External Secret Operator
+**3. Install External Secret Operator**
 
         helm repo add external-secrets https://charts.external-secrets.io
         
@@ -103,9 +102,9 @@ now enable the engine with path sec
         external-secrets-webhook-75878d4b89-mgtwq           1/1     Running   0          22h
 
 
-5. Create SecretStore,ExternalSecret
+**5. Create SecretStore,ExternalSecret**
 
-Create vault-token for the secretstore to connect with vault
+# Create vault-token for the secretstore to connect with vault
 
  kubectl create secret generic vault-token --from-literal=token=root_token
  
@@ -138,7 +137,7 @@ First, create a SecretStore with a vault backend.
         NAME            AGE   STATUS   CAPABILITIES   READY
         vault-backend   9s    Valid    ReadWrite      True
 
-Now create a ExternalSecret that uses the above SecretStore:
+# Now create a ExternalSecret that uses the above SecretStore:
 
         apiVersion: external-secrets.io/v1beta1
         kind: ExternalSecret
@@ -174,7 +173,7 @@ This will create the below secret mysql-pass, with the key password
         mysql-pass    Opaque   1      5m13s
         vault-token   Opaque   1      48m
 
-6. Install Worpress site which is using MySQL DB (password for it stored in vault)
+**6. Install Worpress site which is using MySQL DB (password for it stored in vault)**
 
         kubectl apply -f mysql-deployment.yaml
         service/wordpress-mysql created
