@@ -214,5 +214,6 @@ Now deploy the wordpress-deployment.
 
 
 References:
-https://external-secrets.io/v0.5.7/provider-hashicorp-vault/
-https://www.argonaut.dev/blog/external-secrets-setup
+- https://external-secrets.io/v0.5.7/provider-hashicorp-vault/
+- https://www.argonaut.dev/blog/external-secrets-setup
+- https://kubernetes.io/docs/tutorials/stateful-application/mysql-wordpress-persistent-volume/
