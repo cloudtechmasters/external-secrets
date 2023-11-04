@@ -95,8 +95,39 @@ now enable the engine with path sec
 
         kubectl get pods -n tools
 
-4. Create SecretStore,ExternalSecret
+        NAME                                                READY   STATUS    RESTARTS   AGE
+        external-secrets-969fb45c8-9n8kk                    1/1     Running   0          22h
+        external-secrets-cert-controller-7f99594b48-dr4wl   1/1     Running   0          22h
+        external-secrets-webhook-75878d4b89-mgtwq           1/1     Running   0          22h
 
-        kubectl create secret generic vault-token --from-literal=token=s.JZzoI9caDkDKSaIZHGOtsIei
+
+5. Create SecretStore,ExternalSecret
+
+First, create a SecretStore with a vault backend. For the sake of simplicity we'll use a static token root:
+
+        apiVersion: external-secrets.io/v1beta1
+        kind: SecretStore
+        metadata:
+          name: vault-backend
+        spec:
+          provider:
+            vault:
+              server: "http://my.vault.server:8200"
+              path: "secret"
+              version: "v1"
+              auth:
+                # points to a secret that contains a vault token
+                # https://www.vaultproject.io/docs/auth/token
+                tokenSecretRef:
+                  name: "vault-token"
+                  key: "token"
+        ---
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: vault-token
+        data:
+          token: cm9vdA== # "root"
+
    
 6. Install Worpress site which is using MySQL DB (password for it stored in vault)
