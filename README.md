@@ -129,5 +129,13 @@ First, create a SecretStore with a vault backend. For the sake of simplicity we'
         data:
           token: cm9vdA== # "root"
 
+$ kubectl apply -f secret.yaml
+secretstore.external-secrets.io/vault-backend created
+
+tushar dashpute@DESKTOP-0K20KMJ MINGW64 ~/Downloads
+$ kubectl get secretstore
+NAME            AGE   STATUS   CAPABILITIES   READY
+vault-backend   9s    Valid    ReadWrite      True
+
    
 6. Install Worpress site which is using MySQL DB (password for it stored in vault)
