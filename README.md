@@ -87,12 +87,16 @@ now enable the engine with path sec
 
         helm repo add external-secrets https://charts.external-secrets.io
         
-helm install external-secrets \
-    external-secrets/external-secrets \
-    -n tools \
-    --create-namespace \
-    --set installCRDs=true
+        helm install external-secrets \
+            external-secrets/external-secrets \
+            -n tools \
+            --create-namespace \
+            --set installCRDs=true
 
+        kubectl get pods -n tools
 
 4. Create SecretStore,ExternalSecret
-5. Install Worpress site which is using MySQL DB (password for it stored in vault)
+
+        kubectl create secret generic vault-token --from-literal=token=s.JZzoI9caDkDKSaIZHGOtsIei
+   
+6. Install Worpress site which is using MySQL DB (password for it stored in vault)
