@@ -26,10 +26,7 @@ Steps:
         useradd --system --home /etc/vault --shell /bin/false vault
         chown -R vault:vault /etc/vault /var/lib/vault/
 
-Copy vault.service and config.hcl from the vault directory to the below paths respectively.
-
-        /etc/systemd/system/vault.service 
-        /etc/vault/config.hcl 
+Copy vault.service and config.hcl from the vault directory to the below paths respectively: /etc/systemd/system/vault.service,/etc/vault/config.hcl 
 
         sudo systemctl daemon-reload
         sudo systemctl enable --now vault
