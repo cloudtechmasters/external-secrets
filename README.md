@@ -6,7 +6,7 @@ The goal of External Secrets Operator is to synchronize secrets from external AP
 
 Examples of secrets managers include HashiCorp Vault, AWS Secrets Manager, IBM Secrets Manager, Azure Key Vault, Akeyless, Google Secrets Manager, etc. To get secrets from you secrets manager into your cluster is by using the External Secrets Operator, a Kubernetes operator that enables you to integrate and read values from your external secrets management system and insert them as Secrets in your cluster.
 
-Steps:
+**Steps:**
 1. Install vault
 2. Create secret in vault
 3. Install External Secret Operator
@@ -14,7 +14,7 @@ Steps:
 5. Install Worpress site which is using MySQL DB (password for it stored in vault)
 
 
-=================
+
 **1. Install vault**
 
         sudo yum install -y yum-utils shadow-utils
@@ -72,7 +72,7 @@ Initialize it download the keys. Now open the UI again and provied keys to unsea
 
 ![image](https://github.com/cloudtechmasters/external-secrets/assets/68885738/6b54867d-38d0-4ead-86a9-8268184025ae)
 
-now enable the engine with path secret:
+# Now enable the engine with path secret:
 
 ![image](https://github.com/cloudtechmasters/external-secrets/assets/68885738/71556ccc-914f-4428-bc1a-9a8c039a03a8)
 
@@ -102,7 +102,7 @@ now enable the engine with path secret:
         external-secrets-webhook-75878d4b89-mgtwq           1/1     Running   0          22h
 
 
-**5. Create SecretStore,ExternalSecret**
+**4. Create SecretStore,ExternalSecret**
 
 # Create vault-token for the secretstore to connect with vault
 
@@ -173,7 +173,7 @@ This will create the below secret mysql-pass, with the key password
         mysql-pass    Opaque   1      5m13s
         vault-token   Opaque   1      48m
 
-**6. Install Worpress site which is using MySQL DB (password for it stored in vault)**
+**5. Install Worpress site which is using MySQL DB (password for it stored in vault)**
 
         kubectl apply -f mysql-deployment.yaml
         service/wordpress-mysql created
